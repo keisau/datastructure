@@ -19,7 +19,7 @@ int main () {
 		if (dnode == NULL) {
 			puts ("not found");
 		} else {
-			printf ("key : %lu\n", dnode->key);
+			printf ("key : 0x%lx\n", dnode->key);
 			printf ("data : %p\n", dnode->data);
 		}
 		puts ("--------small number test----------");
@@ -27,14 +27,14 @@ int main () {
 		if (dnode == NULL) {
 			puts ("not found");
 		} else {
-			printf ("key : %lu\n", dnode->key);
+			printf ("key : 0x%lx\n", dnode->key);
 			printf ("data : %p\n", dnode->data);
 		}
 		dnode = radix_tree_find (tree, 0x13);
 		if (dnode == NULL) {
 			puts ("not found");
 		} else {
-			printf ("key : %lu\n", dnode->key);
+			printf ("key : 0x%lx\n", dnode->key);
 			printf ("data : %p\n", dnode->data);
 		}
 		puts ("---------delete test----------");
