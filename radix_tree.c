@@ -1,4 +1,5 @@
 #include "radix_tree.h"
+#include "mm.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -6,6 +7,7 @@
 #define RT_BRANCH_FACTOR			(1 << RT_BRANCH_FACTOR_BIT)
 #define RT_BRANCH_FACTOR_MASK		(RT_BRANCH_FACTOR - 1)
 #define RT_MAX_HEIGHT				(11)	//  div_round_up (64, 6)
+
 int initialized = 0;
 int max_height;
 unsigned long max_index [RT_MAX_HEIGHT];
@@ -69,7 +71,7 @@ static inline struct radix_node * new_radix_node (struct radix_node *parent,
 	return retval;
 }
 
-struct radix_tree * new_radix_tree () {
+static void * new_radix_tree () {
 	struct radix_tree *retval = (struct radix_tree*) malloc (sizeof (struct radix_tree));
 	if (retval == NULL)
 		return NULL;
@@ -86,7 +88,7 @@ struct radix_tree * new_radix_tree () {
 		free (retval);
 		retval = NULL;
 	}
-	return retval;
+	return (void*)retval;
 }
 
 static inline void delete_radix_data_node (struct radix_data_node *data) {
@@ -99,7 +101,8 @@ static inline void delete_radix_node (struct radix_node *node) {
 }
 
 // BFS delete, no recursion
-void delete_radix_tree (struct radix_tree * tree) {
+static void delete_radix_tree (void *_tree) {
+	struct radix_tree *tree = (struct radix_tree *) _tree;
 	struct radix_node * node, *slot, **slots;
 	struct list_head rhead = LIST_HEAD_INIT (rhead);
 	int i;
@@ -141,6 +144,13 @@ void delete_radix_tree (struct radix_tree * tree) {
 out_skip_traversal:
 	free (tree);
 }
+
+class radix_tree = {
+	.new 			= new_radix_tree,
+	.delete 		= delete_radix_tree,
+	.clone			= NULL,
+	.size 			= sizeof (struct radix_tree),
+};
 
 static inline struct radix_node * _rt_extend (struct radix_node *root) {
 	struct radix_node *retval = new_radix_node (NULL, root->height + 1, 0);
