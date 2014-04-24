@@ -1,7 +1,7 @@
 #ifndef __DS_CLASS_H__
 #define __DS_CLASS_H__
 
-#include "common.h"
+#include "types.h"
 #include <stdarg.h>
 
 // class-as-functions and prototype
