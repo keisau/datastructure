@@ -70,7 +70,7 @@ static inline struct radix_node * new_radix_node (struct radix_node *parent,
 	return retval;
 }
 
-static void * new_radix_tree () {
+struct radix_tree * new_radix_tree () {
 	struct radix_tree *retval = (struct radix_tree*) malloc (sizeof (struct radix_tree));
 	if (retval == NULL)
 		return NULL;
@@ -87,7 +87,7 @@ static void * new_radix_tree () {
 		free (retval);
 		retval = NULL;
 	}
-	return (void*)retval;
+	return retval;
 }
 
 static inline void delete_radix_data_node (struct radix_data_node *data) {
@@ -100,8 +100,7 @@ static inline void delete_radix_node (struct radix_node *node) {
 }
 
 // BFS delete, no recursion
-static void delete_radix_tree (void *_tree) {
-	struct radix_tree *tree = (struct radix_tree *) _tree;
+void delete_radix_tree (struct radix_tree * tree) {
 	struct radix_node * node, *slot, **slots;
 	struct list_head rhead = LIST_HEAD_INIT (rhead);
 	int i;
@@ -143,13 +142,6 @@ static void delete_radix_tree (void *_tree) {
 out_skip_traversal:
 	free (tree);
 }
-
-class radix_tree = {
-	.new 			= new_radix_tree,
-	.delete 		= delete_radix_tree,
-	.clone			= NULL,
-	.size 			= sizeof (struct radix_tree),
-};
 
 static inline struct radix_node * _rt_extend (struct radix_node *root) {
 	struct radix_node *retval = new_radix_node (NULL, root->height + 1, 0);
