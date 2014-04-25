@@ -1,7 +1,6 @@
 #ifndef __DS_RADIX_TREE_H__
 #define __DS_RADIX_TREE_H__
 
-#include "class.h"
 #include "list.h"
 
 enum {
@@ -27,7 +26,8 @@ struct radix_data_node {
 
 #define rt_dnode(ptr) (container_of (ptr, struct radix_data_node, head))
 
-extern class radix_tree;
+struct radix_tree * new_radix_tree ();
+void delete_radix_tree (struct radix_tree *tree);
 void * radix_tree_insert (struct radix_tree *tree, unsigned long key, void *data);
 struct radix_data_node * radix_tree_find (struct radix_tree *tree, unsigned long key);
 void * radix_tree_delete (struct radix_tree *tree, unsigned long key);
