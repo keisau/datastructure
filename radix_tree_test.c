@@ -2,7 +2,7 @@
 #include "radix_tree.h"
 
 int main () {
-	struct radix_tree *tree = radix_tree.new ();
+	struct radix_tree *tree = new_radix_tree ();
 	int i, tmp;
 	if (tree) {
 		struct list_head *iter = tree->head.next;
@@ -41,24 +41,24 @@ int main () {
 		radix_tree_delete (tree, 0x12345678);
 		radix_tree_delete (tree, 0x12345600);
 		radix_tree_dump (tree);
-		radix_tree.delete (tree);
+		delete_radix_tree (tree);
 
 		puts ("---------memory test----------");
 		/*
 		for (i = 0; i < 256; ++i) {
 			int j;
 			printf ("pass %d\n", i);
-			tree = radix_tree.new ();
+			tree = new_radix_tree ();
 			for (j = 0; j < 1 << 18; ++j)
 				radix_tree_insert (tree, j, (void*) j);
-			radix_tree.delete (tree);
+			delete_radix_tree (tree);
 		}
 		*/
 		puts ("See memory usage");
 		for (i = 0; i < 256; ++i) {
 			int j;
 			printf ("pass %d\n", i);
-			tree = radix_tree.new ();
+			tree = new_radix_tree ();
 			for (j = 0; j < 1 << 18; ++j)
 				radix_tree_insert (tree, j, (void*) (long)j);
 			for (j = 0; j < 1 << 18; ++j)
