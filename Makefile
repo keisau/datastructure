@@ -1,9 +1,12 @@
+CC		:= gcc
+LD		:= gcc
+
 all: radix_tree hash
 
 radix_tree:
-	cc -c radix_tree.c
-	cc -c radix_tree_test.c
-	cc radix_tree.o radix_tree_test.o -o radix_tree_test
+	$(CC) -c radix_tree.c
+	$(CC) -c radix_tree_test.c
+	$(LD) radix_tree.o radix_tree_test.o -o radix_tree_test
 
 hash:
-	cc -c hash.c
+	$(CC) -c hash.c
