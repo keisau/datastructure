@@ -6,7 +6,7 @@
 #define HASH_PRIME_MASK		0xf
 
 // 16 primes picked because only they are big enough 
-const u32 hash_primes[16] = {
+const static u32 hash_primes[16] = {
 	28472401U,
 	36525343U,
 	49979687U,
@@ -112,7 +112,7 @@ static inline u64 hashstream_8 (const u8 *s, u32 len)
 	u32 rem = len % sizeof (u64);
 	u8 *p = (u8*) s + size * sizeof (u64);
 
-	retval = _hash ((u64*) s, size);
+	retval = hashstream_64 ((u64*) s, size, GOLDEN_RATIO_PRIME_32);
 
 	// XOR the remaining < 64 bits
 	for (i = 0; i < rem; ++i)
