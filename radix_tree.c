@@ -9,7 +9,7 @@
 
 int initialized = 0;
 int max_height;
-unsigned long max_index [RT_MAX_HEIGHT];
+static unsigned long max_index [RT_MAX_HEIGHT];
 
 struct radix_node {
 	unsigned int height;
